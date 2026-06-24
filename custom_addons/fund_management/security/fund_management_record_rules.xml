@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- RECORD RULES -->
+  <!-- Fund User: only sees own requests -->
+  <record id="rule_allocation_request_own" model="ir.rule">
+    <field name="name">Allocation Request: own records</field>
+    <field name="model_id" ref="model_fund_allocation_request"/>
+    <field name="groups" eval="[(4, ref('group_fund_user'))]"/>
+    <field name="domain_force">[('requested_by', '=', user.id)]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <record id="rule_requisition_own" model="ir.rule">
+    <field name="name">Requisition: own records</field>
+    <field name="model_id" ref="model_fund_requisition"/>
+    <field name="groups" eval="[(4, ref('group_fund_user'))]"/>
+    <field name="domain_force">[('requested_by', '=', user.id)]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <record id="rule_transfer_request_own" model="ir.rule">
+    <field name="name">Transfer Request: own records</field>
+    <field name="model_id" ref="model_fund_transfer_request"/>
+    <field name="groups" eval="[(4, ref('group_fund_user'))]"/>
+    <field name="domain_force">[('requested_by', '=', user.id)]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <!-- GM/MD Approver: sees all pending requests -->
+  <record id="rule_allocation_request_approver" model="ir.rule">
+    <field name="name">Allocation Request: approver visibility</field>
+    <field name="model_id" ref="model_fund_allocation_request"/>
+    <field name="groups" eval="[(4, ref('group_gm_approver')), (4, ref('group_md_approver'))]"/>
+    <field name="domain_force">[('state', 'in', ('submitted', 'gm_approval', 'md_approval'))]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <record id="rule_requisition_approver" model="ir.rule">
+    <field name="name">Requisition: approver visibility</field>
+    <field name="model_id" ref="model_fund_requisition"/>
+    <field name="groups" eval="[(4, ref('group_gm_approver')), (4, ref('group_md_approver'))]"/>
+    <field name="domain_force">[('state', 'in', ('submitted', 'gm_approval', 'md_approval'))]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <record id="rule_transfer_request_approver" model="ir.rule">
+    <field name="name">Transfer Request: approver visibility</field>
+    <field name="model_id" ref="model_fund_transfer_request"/>
+    <field name="groups" eval="[(4, ref('group_gm_approver')), (4, ref('group_md_approver'))]"/>
+    <field name="domain_force">[('state', 'in', ('submitted', 'gm_approval', 'md_approval'))]</field>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_write" eval="True"/>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_unlink" eval="False"/>
+  </record>
+
+  <!-- Multi-company: all models -->
+  <record id="rule_company_fund_account" model="ir.rule">
+    <field name="name">Fund Account: same company</field>
+    <field name="model_id" ref="model_fund_account"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_fund_bucket" model="ir.rule">
+    <field name="name">Fund Bucket: same company</field>
+    <field name="model_id" ref="model_fund_bucket"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_allocation_request" model="ir.rule">
+    <field name="name">Allocation Request: same company</field>
+    <field name="model_id" ref="model_fund_allocation_request"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_requisition" model="ir.rule">
+    <field name="name">Requisition: same company</field>
+    <field name="model_id" ref="model_fund_requisition"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_transfer_request" model="ir.rule">
+    <field name="name">Transfer Request: same company</field>
+    <field name="model_id" ref="model_fund_transfer_request"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_incoming" model="ir.rule">
+    <field name="name">Incoming Fund: same company</field>
+    <field name="model_id" ref="model_fund_incoming"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_bill" model="ir.rule">
+    <field name="name">Bill: same company</field>
+    <field name="model_id" ref="model_fund_bill"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_ledger" model="ir.rule">
+    <field name="name">Ledger: same company</field>
+    <field name="model_id" ref="model_fund_ledger"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_approval_history" model="ir.rule">
+    <field name="name">Approval History: same company</field>
+    <field name="model_id" ref="model_fund_approval_history"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+  <record id="rule_company_audit_history" model="ir.rule">
+    <field name="name">Audit History: same company</field>
+    <field name="model_id" ref="model_fund_audit_history"/>
+    <field name="global" eval="True"/>
+    <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+  </record>
+
+</odoo>
