@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="fund_incoming_list_view" model="ir.ui.view">
+    <field name="name">fund.incoming.list</field>
+    <field name="model">fund.incoming</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="transaction_reference"/>
+        <field name="date"/>
+        <field name="source"/>
+        <field name="fund_account_id"/>
+        <field name="amount" sum="Total"/>
+        <field name="state" widget="badge"/>
+        <field name="company_id" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="fund_incoming_form_view" model="ir.ui.view">
+    <field name="name">fund.incoming.form</field>
+    <field name="model">fund.incoming</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_confirm" string="Confirm" type="object"
+                  class="btn-primary" invisible="[('state', 'not in', ('draft',))]"/>
+          <button name="action_cancel" string="Cancel" type="object"
+                  invisible="[('state', 'not in', ('draft', 'confirmed'))]"/>
+        </header>
+        <sheet>
+          <field name="state" widget="statusbar"
+                 statusbar_visible="draft,confirmed"
+                 statusbar_colors='{"cancelled":"gray"}'/>
+          <group>
+            <group>
+              <field name="date"/>
+              <field name="source"/>
+              <field name="fund_account_id"/>
+            </group>
+            <group>
+              <field name="amount" widget="monetary"/>
+              <field name="transaction_reference"/>
+              <field name="company_id"/>
+            </group>
+          </group>
+          <group>
+            <field name="description"/>
+            <field name="attachment" filename="attachment"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="fund_incoming_search_view" model="ir.ui.view">
+    <field name="name">fund.incoming.search</field>
+    <field name="model">fund.incoming</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="transaction_reference"/>
+        <field name="source"/>
+        <field name="fund_account_id"/>
+        <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+        <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_fund_incoming" model="ir.actions.act_window">
+    <field name="name">Incoming Funds</field>
+    <field name="res_model">fund.incoming</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>

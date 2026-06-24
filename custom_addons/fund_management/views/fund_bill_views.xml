@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="fund_bill_list_view" model="ir.ui.view">
+    <field name="name">fund.bill.list</field>
+    <field name="model">fund.bill</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="bill_number"/>
+        <field name="requisition_id"/>
+        <field name="amount" sum="Total"/>
+        <field name="state" widget="badge"/>
+        <field name="company_id" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="fund_bill_form_view" model="ir.ui.view">
+    <field name="name">fund.bill.form</field>
+    <field name="model">fund.bill</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_post" string="Post" type="object"
+                  class="btn-primary" invisible="[('state', 'not in', ('draft',))]"/>
+          <button name="action_cancel" string="Cancel" type="object"
+                  invisible="[('state', 'not in', ('draft', 'posted'))]"/>
+        </header>
+        <sheet>
+          <field name="state" widget="statusbar"
+                 statusbar_visible="draft,posted"
+                 statusbar_colors='{"cancelled":"gray"}'/>
+          <group>
+            <group>
+              <field name="bill_number"/>
+              <field name="requisition_id"/>
+              <field name="fund_bucket_id" readonly="1"/>
+            </group>
+            <group>
+              <field name="amount" widget="monetary"/>
+              <field name="company_id"/>
+            </group>
+          </group>
+          <group>
+            <field name="attachment" filename="attachment"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="fund_bill_search_view" model="ir.ui.view">
+    <field name="name">fund.bill.search</field>
+    <field name="model">fund.bill</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="bill_number"/>
+        <field name="requisition_id"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_fund_bill" model="ir.actions.act_window">
+    <field name="name">Bills</field>
+    <field name="res_model">fund.bill</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>
