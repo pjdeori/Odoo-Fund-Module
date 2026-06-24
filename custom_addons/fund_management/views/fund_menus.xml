@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU -->
+  <menuitem id="menu_fund_management"
+            name="Fund Management"
+            action="action_fund_allocation_request"
+            sequence="10"/>
+
+  <!-- REQUESTS -->
+  <menuitem id="menu_fund_requests"
+            name="Requests"
+            parent="menu_fund_management"
+            sequence="20"/>
+
+  <menuitem id="menu_fund_allocation_request"
+            name="Allocation Requests"
+            parent="menu_fund_requests"
+            sequence="10"
+            action="action_fund_allocation_request"/>
+
+  <menuitem id="menu_fund_requisition"
+            name="Fund Requisitions"
+            parent="menu_fund_requests"
+            sequence="20"
+            action="action_fund_requisition"/>
+
+  <menuitem id="menu_fund_transfer_request"
+            name="Transfer Requests"
+            parent="menu_fund_requests"
+            sequence="30"
+            action="action_fund_transfer_request"/>
+
+  <!-- FINANCE -->
+  <menuitem id="menu_fund_finance"
+            name="Finance"
+            parent="menu_fund_management"
+            sequence="30"/>
+
+  <menuitem id="menu_fund_account"
+            name="Fund Accounts"
+            parent="menu_fund_finance"
+            sequence="5"
+            action="action_fund_account"/>
+
+  <menuitem id="menu_fund_bucket"
+            name="Fund Buckets"
+            parent="menu_fund_finance"
+            sequence="7"
+            action="action_fund_bucket"/>
+
+  <menuitem id="menu_fund_incoming"
+            name="Incoming Funds"
+            parent="menu_fund_finance"
+            sequence="10"
+            action="action_fund_incoming"/>
+
+  <menuitem id="menu_fund_bill"
+            name="Bills"
+            parent="menu_fund_finance"
+            sequence="20"
+            action="action_fund_bill"/>
+
+  <!-- AUDIT -->
+  <menuitem id="menu_fund_audit"
+            name="Audit"
+            parent="menu_fund_management"
+            sequence="50"/>
+
+  <menuitem id="menu_fund_ledger"
+            name="Ledger Entries"
+            parent="menu_fund_audit"
+            sequence="10"
+            action="action_fund_ledger"/>
+
+  <menuitem id="menu_fund_approval_history"
+            name="Approval History"
+            parent="menu_fund_audit"
+            sequence="20"
+            action="action_fund_approval_history"/>
+
+  <menuitem id="menu_fund_audit_history"
+            name="Audit History"
+            parent="menu_fund_audit"
+            sequence="30"
+            action="action_fund_audit_history"/>
+
+</odoo>
