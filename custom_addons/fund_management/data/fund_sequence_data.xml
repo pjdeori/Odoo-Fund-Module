@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  # ---- sequences: auto-numbering for all document types ----
+  # each sequence generates formatted ids like ALLOC-00001, REQ-00001, etc.
+  # company_id is set to False so sequences are shared across companies
+
+  # allocation request: ALLOC-XXXXX
+  <record id="seq_allocation_request" model="ir.sequence">
+    <field name="name">Allocation Request Number</field>
+    <field name="code">fund.allocation_request</field>
+    <field name="prefix">ALLOC-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+  </record>
+
+  # requisition: REQ-XXXXX
+  <record id="seq_requisition" model="ir.sequence">
+    <field name="name">Requisition Number</field>
+    <field name="code">fund.requisition</field>
+    <field name="prefix">REQ-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+  </record>
+
+  # transfer request: TRF-XXXXX
+  <record id="seq_transfer_request" model="ir.sequence">
+    <field name="name">Transfer Request Number</field>
+    <field name="code">fund.transfer_request</field>
+    <field name="prefix">TRF-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+  </record>
+
+  # bill: BILL-XXXXX
+  <record id="seq_bill" model="ir.sequence">
+    <field name="name">Bill Number</field>
+    <field name="code">fund.bill</field>
+    <field name="prefix">BILL-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+  </record>
+
+  # incoming fund reference: INC-XXXXX
+  <record id="seq_incoming" model="ir.sequence">
+    <field name="name">Incoming Fund Reference</field>
+    <field name="code">fund.incoming</field>
+    <field name="prefix">INC-</field>
+    <field name="padding">5</field>
+    <field name="company_id" eval="False"/>
+  </record>
+
+</odoo>
