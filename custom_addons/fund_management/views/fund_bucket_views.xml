@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="fund_bucket_list_view" model="ir.ui.view">
+    <field name="name">fund.bucket.list</field>
+    <field name="model">fund.bucket</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="type"/>
+        <field name="total_allocated_fund" optional="show"/>
+        <field name="available_fund"/>
+        <field name="requisition_hold"/>
+        <field name="transfer_hold"/>
+        <field name="total_spent_amount"/>
+        <field name="company_id" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="fund_bucket_form_view" model="ir.ui.view">
+    <field name="name">fund.bucket.form</field>
+    <field name="model">fund.bucket</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group string="Balances">
+              <field name="total_allocated_fund"/>
+              <field name="available_fund"/>
+              <field name="requisition_hold"/>
+              <field name="transfer_hold"/>
+              <field name="approved_unspent_amount"/>
+              <field name="total_spent_amount"/>
+              <field name="incoming_transfers"/>
+              <field name="outgoing_transfers"/>
+            </group>
+            <group>
+              <field name="name"/>
+              <field name="type"/>
+              <field name="company_id"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Ledger Lines">
+              <field name="ledger_line_ids" nolabel="1">
+                <list>
+                  <field name="date"/>
+                  <field name="event_type"/>
+                  <field name="amount"/>
+                  <field name="reference"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="fund_bucket_search_view" model="ir.ui.view">
+    <field name="name">fund.bucket.search</field>
+    <field name="model">fund.bucket</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <filter name="projects" string="Projects" domain="[('type','=','project')]"/>
+        <filter name="expense_heads" string="Expense Heads" domain="[('type','=','expense_head')]"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_fund_bucket" model="ir.actions.act_window">
+    <field name="name">Fund Buckets</field>
+    <field name="res_model">fund.bucket</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>
