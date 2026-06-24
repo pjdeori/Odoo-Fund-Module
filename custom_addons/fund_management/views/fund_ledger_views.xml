@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="fund_ledger_list_view" model="ir.ui.view">
+    <field name="name">fund.ledger.list</field>
+    <field name="model">fund.ledger</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="date"/>
+        <field name="event_type"/>
+        <field name="amount" sum="Total"/>
+        <field name="fund_account_id"/>
+        <field name="fund_bucket_id"/>
+        <field name="reference"/>
+        <field name="created_by_id"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="fund_ledger_search_view" model="ir.ui.view">
+    <field name="name">fund.ledger.search</field>
+    <field name="model">fund.ledger</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="reference"/>
+        <field name="event_type"/>
+        <field name="fund_account_id"/>
+        <field name="fund_bucket_id"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_fund_ledger" model="ir.actions.act_window">
+    <field name="name">Ledger Entries</field>
+    <field name="res_model">fund.ledger</field>
+    <field name="view_mode">list</field>
+  </record>
+
+</odoo>
