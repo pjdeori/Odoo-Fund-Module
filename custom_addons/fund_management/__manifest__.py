@@ -3,7 +3,7 @@
     'name': 'Fund Management',
 
     # module version used during upgrades
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.5',
 
     # module category shown in apps
     'category': 'Accounting',

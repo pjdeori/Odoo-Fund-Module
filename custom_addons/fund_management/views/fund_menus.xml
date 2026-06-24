@@ -4,7 +4,6 @@
   <!-- ROOT MENU -->
   <menuitem id="menu_fund_management"
             name="Fund Management"
-            action="action_fund_allocation_request"
             sequence="10"/>
 
   <!-- REQUESTS -->
@@ -84,5 +83,50 @@
             parent="menu_fund_audit"
             sequence="30"
             action="action_fund_audit_history"/>
+
+  <!-- Force clear action and groups from root menu (lingering from old versions) -->
+  <record id="menu_fund_management" model="ir.ui.menu">
+    <field name="action" eval="False"/>
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_requests" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_allocation_request" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_requisition" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_transfer_request" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_finance" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_account" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_bucket" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_incoming" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_bill" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_audit" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_ledger" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_approval_history" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
+  <record id="menu_fund_audit_history" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+  </record>
 
 </odoo>
