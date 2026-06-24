@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="fund_requisition_list_view" model="ir.ui.view">
+    <field name="name">fund.requisition.list</field>
+    <field name="model">fund.requisition</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="request_number"/>
+        <field name="fund_bucket_id"/>
+        <field name="amount" sum="Total"/>
+        <field name="remaining_billable_amount"/>
+        <field name="state" widget="badge"/>
+        <field name="request_date"/>
+        <field name="requested_by"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="fund_requisition_form_view" model="ir.ui.view">
+    <field name="name">fund.requisition.form</field>
+    <field name="model">fund.requisition</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_submit" string="Submit" type="object"
+                  class="btn-primary" invisible="[('state', 'not in', ('draft',))]"/>
+          <button name="action_gm_review" string="GM Review" type="object"
+                  invisible="[('state', 'not in', ('submitted',))]"/>
+          <button name="action_gm_approve" string="GM Approve" type="object"
+                  invisible="[('state', 'not in', ('gm_approval',))]"/>
+          <button name="action_md_approve" string="MD Approve" type="object"
+                  class="btn-primary" invisible="[('state', 'not in', ('md_approval',))]"/>
+          <button name="action_reject" string="Reject" type="object"
+                  invisible="[('state', 'not in', ('gm_approval', 'md_approval'))]"/>
+          <button name="action_cancel" string="Cancel" type="object"
+                  invisible="[('state', 'not in', ('draft', 'submitted', 'gm_approval', 'md_approval'))]"/>
+          <button name="action_close" string="Close" type="object"
+                  invisible="[('state', 'not in', ('approved',))]"/>
+        </header>
+        <sheet>
+          <field name="state" widget="statusbar"
+                 statusbar_visible="draft,submitted,gm_approval,md_approval,approved,closed"
+                 statusbar_colors='{"rejected":"red","cancelled":"gray"}'/>
+          <group>
+            <group>
+              <field name="request_number"/>
+              <field name="request_date"/>
+              <field name="required_date"/>
+              <field name="requested_by"/>
+            </group>
+            <group>
+              <field name="fund_bucket_id"/>
+              <field name="amount" widget="monetary"/>
+              <field name="remaining_billable_amount"/>
+              <field name="company_id"/>
+            </group>
+          </group>
+          <group>
+            <field name="purpose"/>
+            <field name="attachment" filename="attachment"/>
+          </group>
+          <notebook>
+            <page string="Bills">
+              <field name="bill_ids" nolabel="1">
+                <list>
+                  <field name="bill_number"/>
+                  <field name="amount"/>
+                  <field name="state"/>
+                </list>
+              </field>
+            </page>
+            <page string="Approval History">
+              <field name="approval_history_ids" nolabel="1">
+                <list>
+                  <field name="approver_id"/>
+                  <field name="date"/>
+                  <field name="approval_level"/>
+                  <field name="result"/>
+                  <field name="comment"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="fund_requisition_search_view" model="ir.ui.view">
+    <field name="name">fund.requisition.search</field>
+    <field name="model">fund.requisition</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="request_number"/>
+        <field name="fund_bucket_id"/>
+        <filter name="my_requests" string="My Requests"
+                domain="[('requested_by','=',uid)]"/>
+        <filter name="pending_gm" string="Pending GM"
+                domain="[('state','=','gm_approval')]"/>
+        <filter name="pending_md" string="Pending MD"
+                domain="[('state','=','md_approval')]"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_fund_requisition" model="ir.actions.act_window">
+    <field name="name">Fund Requisitions</field>
+    <field name="res_model">fund.requisition</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'default_requested_by': uid}</field>
+  </record>
+
+</odoo>
