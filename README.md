@@ -7,6 +7,34 @@ An Odoo 18 custom module for managing incoming funds, allocations, requisitions,
 
 ---
 
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Architecture](#architecture)
+- [Specification](#specification)
+  - [1. Fund Accounts & Incoming Funds](#1-fund-accounts-and-incoming-funds)
+  - [2. Fund Allocation](#2-fund-allocation)
+  - [3. Approval Process](#3-approval-process)
+  - [4. Project & Expense Balances](#4-project-and-expense-balances)
+  - [5. Fund Requisition](#5-fund-requisition)
+  - [6. Bill Control](#6-bill-control)
+  - [7. Fund Transfer](#7-fund-transfer)
+  - [8. Security & Access Control](#8-security-and-access-control)
+  - [9. Audit History](#9-audit-history)
+  - [10. Bonus Features](#10-bonus-features)
+- [Implementation Details](#implementation-details)
+  - [Security](#security)
+  - [File Responsibilities](#file-responsibilities)
+  - [AI Usage Transparency](#ai-usage-transparency)
+  - [Known Limitations](#known-limitations)
+  - [Assumptions](#assumptions)
+  - [Odoo 18 Findings (Resolved)](#odoo-18-findings-resolved)
+
+---
+
 ## Requirements
 
 | Requirement | Detail |
@@ -367,3 +395,36 @@ All generated code was reviewed and modified by the candidate. Known AI-generate
 - Holds are created on submit (not during approval) to prevent double-spending during pending period
 - Confirmed financial records should be reversed/cancelled, not deleted
 - `sudo()` is used for ledger, approval_history, and audit_history creation to keep ACLs simple
+
+### Odoo 18 Findings (Resolved)
+
+**1. `<menuitem>` without `action` does not clear the DB value during upgrade**
+Root menus keep their `action` reference even after the XML attribute is removed. If the referenced model is inaccessible to certain users, Odoo prunes the entire menu branch.
+
+*Resolution:* Explicitly clear with `<record>`:
+```xml
+<record id="menu_fund_management" model="ir.ui.menu">
+    <field name="action" eval="False"/>
+</record>
+```
+
+**2. `<menuitem>` without `groups` does not clear DB restrictions**
+Group restrictions persist across upgrades even after removing the `groups` attribute from the XML.
+
+*Resolution:* Clear with `[(5,)]`:
+```xml
+<record id="menu_fund_management" model="ir.ui.menu">
+    <field name="groups_id" eval="[(5,)]"/>
+</record>
+```
+
+**3. `<menuitem>` `groups` attribute requires full module prefix**
+Unlike `ref()` in eval contexts, the `groups` attribute on `<menuitem>` does not resolve unprefixed XML IDs.
+```xml
+<!-- Works in ref() but NOT in menuitem groups -->
+<menuitem id="..." groups="group_finance_user"/>
+
+<!-- Must use full prefix -->
+<menuitem id="..." groups="fund_management.group_finance_user"/>
+```
+Odoo core follows this pattern: `sales_team.group_sale_salesman`, not `group_sale_salesman`.
